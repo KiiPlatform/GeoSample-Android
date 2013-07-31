@@ -18,7 +18,7 @@ Kii Geolocation demo for Android, using google maps v2.
 
 AndroidManifest.xml
 
- <meta-data
+	\<meta-data
             android:name="com.google.android.maps.v2.API_KEY"
             android:value="YOUR_GOOGLE_MAPS_KEY" />
             
@@ -26,6 +26,6 @@ AndroidManifest.xml
 src/com/kii / sample / kiigeocoupon / KiiGeoCouponApp.java
 
 
-private static final String APP_ID = "YOUR KII APP ID";
-private static final String APP_KEY = "YOUR KII APP KEY";
+	private static final String APP_ID = "YOUR KII APP ID";
+	private static final String APP_KEY = "YOUR KII APP KEY";
 

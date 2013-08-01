@@ -1,26 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
+<GridView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/coupon_gallery"
+    android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:gravity="center"
-    android:orientation="vertical" >
+    android:background="#ffffff"
+    android:columnWidth="@dimen/coupon_view"
+    android:gravity="center_horizontal"
+    android:horizontalSpacing="5dp"
+    android:numColumns="auto_fit"
+    android:padding="5dp"
+    android:stretchMode="columnWidth"
+    android:verticalSpacing="5dp" >
 
-    <HorizontalScrollView
-        android:id="@+id/horizontalScrollView1"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingTop="@dimen/big_padding" >
+</GridView>
 
-        <LinearLayout
-            android:id="@+id/coupon_gallery"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:animateLayoutChanges="true"
-            android:gravity="center"
-            android:orientation="horizontal"
-            android:paddingRight="@dimen/big_padding" >
-
-        </LinearLayout>
-    </HorizontalScrollView>
-
-</LinearLayout>

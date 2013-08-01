@@ -5,6 +5,6 @@
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="padding">5dp</dimen>
     <dimen name="big_padding">25dp</dimen>
-    <dimen name="coupon_view">220dp</dimen>
+    <dimen name="coupon_view">150dp</dimen>
     
 </resources>

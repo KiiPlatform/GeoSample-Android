@@ -11,8 +11,10 @@ import com.google.zxing.common.BitMatrix;
 import com.google.zxing.integration.android.IntentResult;
 import com.google.zxing.qrcode.QRCodeWriter;
 import com.kii.cloud.storage.GeoPoint;
+import com.kii.cloud.storage.KiiBucket;
 import com.kii.cloud.storage.KiiObject;
 import com.kii.cloud.storage.KiiUser;
+import com.kii.cloud.storage.callback.KiiBucketCallBack;
 import com.kii.cloud.storage.callback.KiiObjectCallBack;
 
 public class Coupon {
@@ -20,15 +22,16 @@ public class Coupon {
 	/**
 	 * 
 	 */
-	private static final String COMPANY = "company";
-	private static final String PRODUCT = "product";
-	private static final String DISCOUNT_CODE = "discount_code";
-	private static final String VIEW_AT = "viewAt";
-	private static final String REDEEM_AT = "redeemedAt";
+	public static final String COMPANY = "company";
+	public static final String PRODUCT = "product";
+	public static final String DISCOUNT_CODE = "discount_code";
+	public static final String VIEW_AT = "viewAt";
+	public static final String REDEEM_AT = "redeemedAt";
 	private static final String RAW_DATA = "rawData"; // cached to increased
 														// performance
 
 	private static final String TAG = "Coupon";
+	public static final String IS_REDEEMED = "isRedeemed";
 
 	private KiiObject kiiObject;
 
@@ -39,6 +42,16 @@ public class Coupon {
 	public static Coupon create(IntentResult scanResult, Location location) {
 		KiiObject kiiObject = null;
 		try {
+//			KiiData.getUser().bucket(KiiGeoCouponApp.USER_BUCKET).delete(new KiiBucketCallBack<KiiBucket>(){
+//
+//				@Override
+//				public void onDeleteCompleted(int token, Exception exception) {
+//					// TODO Auto-generated method stub
+//					super.onDeleteCompleted(token, exception);
+//					Log.e(TAG,"Bucket deleted");
+//				}
+//				
+//			});
 			Log.e(TAG, "login:" + KiiUser.isLoggedIn());
 			kiiObject = KiiData.getUser().bucket(KiiGeoCouponApp.USER_BUCKET)
 					.object();
@@ -55,6 +68,7 @@ public class Coupon {
 		}
 		kiiObject.set(VIEW_AT,
 				new GeoPoint(location.getLatitude(), location.getLongitude()));
+		kiiObject.set(IS_REDEEMED, false);
 		kiiObject.save(new KiiObjectCallBack() {
 
 			@Override
@@ -91,8 +105,13 @@ public class Coupon {
 	public GeoPoint getRedeemAt() {
 		return kiiObject.getGeoPoint(REDEEM_AT, null);
 	}
+	
+	public boolean isRedeemed(){
+		return kiiObject.getBoolean(IS_REDEEMED);
+	}
 
 	public void redeem(Location location) {
+		kiiObject.set(IS_REDEEMED, true);
 		kiiObject.set(REDEEM_AT,
 				new GeoPoint(location.getLatitude(), location.getLongitude()));
 		kiiObject.save(new KiiObjectCallBack() {

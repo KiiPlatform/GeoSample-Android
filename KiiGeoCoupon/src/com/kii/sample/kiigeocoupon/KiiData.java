@@ -40,7 +40,9 @@ public class KiiData  {
 
 	public static void loadCoupons() {
 		try {
-			KiiQuery qb = new KiiQuery(); 
+			KiiQuery qb = new KiiQuery(KiiClause.equals(Coupon.IS_REDEEMED, false)); 
+			qb.sortByAsc(Coupon.COMPANY);
+			qb.sortByAsc(Coupon.PRODUCT);
 			user.bucket(KiiGeoCouponApp.USER_BUCKET)
 					.query(new KiiQueryCallBack<KiiObject>() {
 
@@ -54,7 +56,7 @@ public class KiiData  {
 								Log.e(TAG, "objects=" + objects);
 								couponList = new ArrayList<Coupon>();
 								for (KiiObject kiiObject : objects) {
-									if(!kiiObject.has("redeemedAt"))
+									if(!kiiObject.has(Coupon.REDEEM_AT))
 									couponList.add(new Coupon(kiiObject));
 								}
 								

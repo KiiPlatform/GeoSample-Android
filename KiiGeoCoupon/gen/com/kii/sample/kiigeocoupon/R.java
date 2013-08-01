@@ -205,43 +205,44 @@ containing a value of this type.
         public static final int company=0x7f06000c;
         public static final int couponImage=0x7f060009;
         public static final int coupon_gallery=0x7f060020;
-        public static final int current_redeem=0x7f06001a;
+        public static final int current_redeem=0x7f06001b;
         public static final int discountCode=0x7f060010;
-        public static final int editText1=0x7f060018;
+        public static final int editText1=0x7f060019;
         public static final int fragment_container=0x7f060006;
-        public static final int fullNameField=0x7f060012;
-        public static final int horizontalScrollView1=0x7f06001f;
+        public static final int fullNameField=0x7f060013;
+        public static final int grid_item=0x7f060011;
         public static final int hybrid=0x7f060004;
         public static final int linearLayout=0x7f060005;
-        public static final int loginButton=0x7f060015;
-        public static final int login_area=0x7f060014;
-        public static final int login_fragment=0x7f060011;
+        public static final int loginButton=0x7f060016;
+        public static final int login_area=0x7f060015;
+        public static final int login_fragment=0x7f060012;
         public static final int mapview=0x7f060007;
-        public static final int no=0x7f06001b;
+        public static final int no=0x7f06001c;
         public static final int none=0x7f060000;
         public static final int normal=0x7f060001;
         public static final int product=0x7f06000e;
-        public static final int pwdField=0x7f060013;
+        public static final int pwdField=0x7f060014;
         public static final int satellite=0x7f060002;
-        public static final int scan_button=0x7f06001d;
-        public static final int scanned_coupon=0x7f06001e;
-        public static final int signupButton=0x7f060019;
-        public static final int signup_area=0x7f060017;
-        public static final int switchButton=0x7f060016;
+        public static final int scan_button=0x7f06001e;
+        public static final int scanned_coupon=0x7f06001f;
+        public static final int signupButton=0x7f06001a;
+        public static final int signup_area=0x7f060018;
+        public static final int switchButton=0x7f060017;
         public static final int terrain=0x7f060003;
         public static final int textView1=0x7f06000b;
         public static final int textView2=0x7f06000d;
         public static final int textView3=0x7f06000f;
-        public static final int yes=0x7f06001c;
+        public static final int yes=0x7f06001d;
     }
     public static final class layout {
         public static final int activity_kii_geo_coupon_app=0x7f030000;
         public static final int coupon_map_fragment=0x7f030001;
         public static final int coupon_view=0x7f030002;
-        public static final int login_fragment=0x7f030003;
-        public static final int redeem_dialog=0x7f030004;
-        public static final int scan_coupon_fragment=0x7f030005;
-        public static final int view_coupons_fragment=0x7f030006;
+        public static final int grid_item=0x7f030003;
+        public static final int login_fragment=0x7f030004;
+        public static final int redeem_dialog=0x7f030005;
+        public static final int scan_coupon_fragment=0x7f030006;
+        public static final int view_coupons_fragment=0x7f030007;
     }
     public static final class menu {
         public static final int kii_geo_coupon_app=0x7f0a0000;
@@ -272,6 +273,7 @@ containing a value of this type.
         [CHAR LIMIT=70] 
          */
         public static final int auth_client_using_bad_version_title=0x7f07000f;
+        public static final int click_scan=0x7f07002a;
         /**  Button in confirmation dialog to enable Google Play services.  Clicking it
         will direct user to application settings of Google Play services where they
         can enable it [CHAR LIMIT=40] 

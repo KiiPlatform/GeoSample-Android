@@ -22,5 +22,6 @@
     <string name="yes">Yes</string>
     <string name="no">No</string>
     <string name="redeem_coupon">Redeem coupon?</string>
+    <string name="click_scan">Click below to scan a coupon</string>
 
 </resources>

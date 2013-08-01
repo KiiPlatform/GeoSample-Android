@@ -43,7 +43,7 @@ public class KiiData  {
 			KiiQuery qb = new KiiQuery(KiiClause.equals(Coupon.IS_REDEEMED, false)); 
 			qb.sortByAsc(Coupon.COMPANY);
 			qb.sortByAsc(Coupon.PRODUCT);
-			user.bucket(KiiGeoCouponApp.USER_BUCKET)
+			user.bucket(GeoSampleAndroidApp.USER_BUCKET)
 					.query(new KiiQueryCallBack<KiiObject>() {
 
 						@Override

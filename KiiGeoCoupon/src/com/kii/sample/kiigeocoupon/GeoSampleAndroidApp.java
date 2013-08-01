@@ -31,7 +31,7 @@ import com.kii.cloud.storage.KiiUser;
 import com.kii.cloud.storage.callback.KiiUserCallBack;
 import com.kii.tool.login.KiiLoginFragment;
 
-public class KiiGeoCouponApp extends Activity {
+public class GeoSampleAndroidApp extends Activity {
 
 	private static final String APP_ID = "YOUR KII APP ID";
 	private static final String APP_KEY = "YOUR KII APP KEY";
@@ -39,7 +39,7 @@ public class KiiGeoCouponApp extends Activity {
 	public static final String USER_EMAIL = "email";
 	public static final String USER_PASSWORD = "password";
 	public static final String USER_BUCKET = "Coupons";
-	private static final String TAG = "KiiGeoCouponApp";
+	private static final String TAG = "GeoSampleAndroidApp";
 	private static final String TAB_SELECTED = "selected_tab";
 	private static final String KII_USER_URI = "kiiuseruri";
 	private ScanCouponFragment couponFragment;
@@ -126,7 +126,7 @@ public class KiiGeoCouponApp extends Activity {
 		if (scanResult != null) {
 			// handle scan result
 			final SharedPreferences settings = getSharedPreferences(
-					KiiGeoCouponApp.PREFS_NAME, 0);
+					GeoSampleAndroidApp.PREFS_NAME, 0);
 			try {
 				KiiData.getUser().refresh(new KiiUserCallBack() {
 
@@ -144,7 +144,7 @@ public class KiiGeoCouponApp extends Activity {
 							}
 
 						}, KiiData.getUser().getEmail(), settings.getString(
-								KiiGeoCouponApp.USER_PASSWORD, ""));
+								GeoSampleAndroidApp.USER_PASSWORD, ""));
 					}
 				});
 			} catch (Exception e) {

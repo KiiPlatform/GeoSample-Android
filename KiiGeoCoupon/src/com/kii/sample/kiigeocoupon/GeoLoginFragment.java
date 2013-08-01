@@ -53,9 +53,9 @@ public class GeoLoginFragment extends KiiLoginFragment{
 			}
 
 		});
-		SharedPreferences settings = getActivity().getSharedPreferences(KiiGeoCouponApp.PREFS_NAME, 0);
-		emailField.setText(settings.getString(KiiGeoCouponApp.USER_EMAIL, ""));
-		passwordField.setText(settings.getString(KiiGeoCouponApp.USER_PASSWORD, ""));
+		SharedPreferences settings = getActivity().getSharedPreferences(GeoSampleAndroidApp.PREFS_NAME, 0);
+		emailField.setText(settings.getString(GeoSampleAndroidApp.USER_EMAIL, ""));
+		passwordField.setText(settings.getString(GeoSampleAndroidApp.USER_PASSWORD, ""));
 		getDialog().setTitle(R.string.login);
 		getDialog().setFeatureDrawableResource(STYLE_NORMAL, R.drawable.kiilogo);
 		getDialog().getWindow().setWindowAnimations(R.style.MyAnimation_Window);
@@ -99,7 +99,7 @@ public class GeoLoginFragment extends KiiLoginFragment{
 		Log.e(TAG,"login="+KiiUser.isLoggedIn());
 		KiiData.setUser(user);
 //		try{
-//		KiiData.getUser().bucket(KiiGeoCouponApp.USER_BUCKET).delete();
+//		KiiData.getUser().bucket(GeoSampleAndroidApp.USER_BUCKET).delete();
 //		}catch(Exception e){
 //			e.printStackTrace();
 //		}
@@ -107,10 +107,10 @@ public class GeoLoginFragment extends KiiLoginFragment{
     }
 
     private void savePreferences() {
-		SharedPreferences settings = getActivity().getSharedPreferences(KiiGeoCouponApp.PREFS_NAME, 0);
+		SharedPreferences settings = getActivity().getSharedPreferences(GeoSampleAndroidApp.PREFS_NAME, 0);
 		Editor edit=settings.edit();
-		edit.putString(KiiGeoCouponApp.USER_EMAIL, emailField.getText().toString());
-		edit.putString(KiiGeoCouponApp.USER_PASSWORD, passwordField.getText().toString());
+		edit.putString(GeoSampleAndroidApp.USER_EMAIL, emailField.getText().toString());
+		edit.putString(GeoSampleAndroidApp.USER_PASSWORD, passwordField.getText().toString());
 		edit.commit();
 	}
 

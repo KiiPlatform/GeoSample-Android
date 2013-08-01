@@ -42,7 +42,7 @@ public class Coupon {
 	public static Coupon create(IntentResult scanResult, Location location) {
 		KiiObject kiiObject = null;
 		try {
-//			KiiData.getUser().bucket(KiiGeoCouponApp.USER_BUCKET).delete(new KiiBucketCallBack<KiiBucket>(){
+//			KiiData.getUser().bucket(GeoSampleAndroidApp.USER_BUCKET).delete(new KiiBucketCallBack<KiiBucket>(){
 //
 //				@Override
 //				public void onDeleteCompleted(int token, Exception exception) {
@@ -53,7 +53,7 @@ public class Coupon {
 //				
 //			});
 			Log.e(TAG, "login:" + KiiUser.isLoggedIn());
-			kiiObject = KiiData.getUser().bucket(KiiGeoCouponApp.USER_BUCKET)
+			kiiObject = KiiData.getUser().bucket(GeoSampleAndroidApp.USER_BUCKET)
 					.object();
 		} catch (Exception e) {
 			Log.e(TAG, "Can not create bucket");

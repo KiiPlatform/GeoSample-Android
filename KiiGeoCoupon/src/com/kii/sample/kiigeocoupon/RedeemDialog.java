@@ -55,7 +55,7 @@ public class RedeemDialog extends DialogFragment{
 	}
 	
 	protected void redeemCoupon() {
-		Location location=((KiiGeoCouponApp)getActivity()).getCurrentLocation();
+		Location location=((GeoSampleAndroidApp)getActivity()).getCurrentLocation();
 		coupon.redeem(location);
 		KiiData.loadCoupons();
 		dismiss();
@@ -86,7 +86,7 @@ public class RedeemDialog extends DialogFragment{
 //		TextView discountCode=(TextView)couponView.findViewById(R.id.discountCode);
 //		discountCode.setText(coupon.getDiscountCode());
 		
-		View couponView=((KiiGeoCouponApp)getActivity()).createCouponView(coupon);
+		View couponView=((GeoSampleAndroidApp)getActivity()).createCouponView(coupon);
 		currentRedeem.addView(couponView);
 		return;
 	}	

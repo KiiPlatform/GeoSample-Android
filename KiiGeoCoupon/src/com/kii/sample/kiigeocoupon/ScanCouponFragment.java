@@ -45,7 +45,7 @@ public class ScanCouponFragment extends Fragment {
 		scannedCoupon = (FrameLayout) rootView
 				.findViewById(R.id.scanned_coupon);
 		if (currentCoupon != null)
-			((KiiGeoCouponApp)getActivity()).createCouponView(currentCoupon);
+			((GeoSampleAndroidApp)getActivity()).createCouponView(currentCoupon);
 
 
 		return rootView;
@@ -62,9 +62,9 @@ public class ScanCouponFragment extends Fragment {
 	}
 
 	public void setScanResult(IntentResult scanResult) {
-		Location location=((KiiGeoCouponApp)getActivity()).getCurrentLocation();
+		Location location=((GeoSampleAndroidApp)getActivity()).getCurrentLocation();
 		currentCoupon = Coupon.create(scanResult, location);
-		View couponView=((KiiGeoCouponApp)getActivity()).createCouponView(currentCoupon);
+		View couponView=((GeoSampleAndroidApp)getActivity()).createCouponView(currentCoupon);
 		scannedCoupon.addView(couponView);
 	}
 

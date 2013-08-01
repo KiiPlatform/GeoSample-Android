@@ -226,7 +226,7 @@ public class CouponMapFragment extends Fragment {
 			KiiQuery query = new KiiQuery(KiiClause.or(clause1, clause2));
 			;
 
-			KiiData.getUser().bucket(KiiGeoCouponApp.USER_BUCKET)
+			KiiData.getUser().bucket(GeoSampleAndroidApp.USER_BUCKET)
 					.query(new KiiQueryCallBack<KiiObject>() {
 
 						@Override

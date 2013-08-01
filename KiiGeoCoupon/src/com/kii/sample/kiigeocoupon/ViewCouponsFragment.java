@@ -64,7 +64,7 @@ public class ViewCouponsFragment extends Fragment {
 			for (final Coupon coupon : KiiData.getCouponList()) {
 				Log.e(TAG, "adding View");
 				// View view=insertCoupon(coupon);
-				View view = ((KiiGeoCouponApp) getActivity())
+				View view = ((GeoSampleAndroidApp) getActivity())
 						.createCouponView(coupon);
 				view.setOnClickListener(new OnClickListener() {
 

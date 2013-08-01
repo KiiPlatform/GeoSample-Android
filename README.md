@@ -1,4 +1,4 @@
-## KiiGeoCoupon
+## GeoSample-Android
 ============
 
 Kii Geolocation demo for Android, using google maps v2.

@@ -51,7 +51,7 @@ AndroidManifest.xml
             
 ### Setup KiiCloud
 
-You can get it from [Kii Cloud](http://developer.kii.com).
+You can get the APP ID and APP KEY from [Kii Cloud](http://developer.kii.com).
 
 Then copy the values to:           
 src/com/kii / sample / kiigeocoupon / KiiGeoCouponApp.java

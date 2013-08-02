@@ -60,6 +60,17 @@ src/com/kii / sample / kiigeocoupon / KiiGeoCouponApp.java
 	private static final String APP_ID = "YOUR KII APP ID";
 	private static final String APP_KEY = "YOUR KII APP KEY";
 	
+### Generate sample QR codes
+
+There are many different QR codes format. For this sample app, the QR codes simple encode a plain text string with 3 values separated by commas, with the following structure:
+
+	COMPANY, PRODUCT_NAME, DISCOUNT_CODE
+
+Codes will be decoding from that format, so if the coupon does not contain these values, the coupon will not be stored.
+
+You can easily generate new QR code from [here](http://zxing.appspot.com/generator) and select Text as Content.
+
+	
 Your app is ready to use!!!
 
 ### Next Steps

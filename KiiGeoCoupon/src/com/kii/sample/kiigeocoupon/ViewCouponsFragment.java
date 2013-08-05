@@ -19,14 +19,13 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
-import android.widget.ImageView;
 import android.widget.LinearLayout.LayoutParams;
 import android.widget.TextView;
 
 public class ViewCouponsFragment extends Fragment {
 	private static final String TAG = "ViewCouponsFragment";
-	GridView couponGallery;
-	List<Coupon> couponList;
+	GridView _couponGallery;
+	List<Coupon> _couponList;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -40,15 +39,15 @@ public class ViewCouponsFragment extends Fragment {
 			Bundle savedInstanceState) {
 		View rootView = inflater.inflate(R.layout.view_coupons_fragment,
 				container, false);
-		couponGallery = (GridView) rootView.findViewById(R.id.coupon_gallery);
-		couponGallery.setAdapter(new CouponImageAdapter(getActivity()));
+		_couponGallery = (GridView) rootView.findViewById(R.id.coupon_gallery);
+		_couponGallery.setAdapter(new CouponImageAdapter(getActivity()));
 		// createGallery();
 		LayoutAnimationController controller = AnimationUtils
 				.loadLayoutAnimation(getActivity().getApplicationContext(),
 						R.anim.gallery);
 
-		couponGallery.setLayoutAnimation(controller);
-		couponGallery.setOnItemClickListener(new OnItemClickListener() {
+		_couponGallery.setLayoutAnimation(controller);
+		_couponGallery.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1,
@@ -78,7 +77,7 @@ public class ViewCouponsFragment extends Fragment {
 						LayoutParams.WRAP_CONTENT);
 				lp.rightMargin = R.dimen.padding;
 
-				couponGallery.addView(view);
+				_couponGallery.addView(view);
 			}
 		}
 	}
@@ -105,7 +104,9 @@ public class ViewCouponsFragment extends Fragment {
 		@Override
 		public int getCount() {
 			/* Set the number of element we want on the grid */
-			return KiiData.getCouponList().size();
+			if(KiiData.getCouponList()!=null)
+				return KiiData.getCouponList().size();
+			return 0;
 		}
 
 		@SuppressLint("NewApi")
@@ -113,7 +114,7 @@ public class ViewCouponsFragment extends Fragment {
 		public View getView(int position, View convertView, ViewGroup parent) {
 			View myView = convertView;
 			Coupon coupon = KiiData.getCouponList().get(position);
-			if (convertView == null) {
+			if( (convertView == null) &&(coupon!=null)){
 				/* we define the view that will display on the grid */
 
 				// Inflate the layout

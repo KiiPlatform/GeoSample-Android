@@ -18,12 +18,12 @@ import com.kii.tool.login.KiiLoginFragment;
 
 public class GeoLoginFragment extends KiiLoginFragment{
 	private static final String TAG = "Login";
-	private EditText emailField;
-	private EditText passwordField;
-	private Button switchButton;
-	private Button loginButton;
-	private Button signupButton;
-	private View rootView;
+	private EditText _emailField;
+	private EditText _passwordField;
+	private Button _switchButton;
+	private Button _loginButton;
+	private Button _signupButton;
+	private View _rootView;
 	private LinearLayout _loginArea,_signupArea;
 
 	public static GeoLoginFragment newInstance() {
@@ -36,49 +36,49 @@ public class GeoLoginFragment extends KiiLoginFragment{
 			Bundle savedInstanceState) {
 		// Inflate the layout for this fragment
 		// link our variables to UI elements
-		rootView = inflater.inflate(R.layout.login_fragment, container, false);
-		switchButton = (Button) rootView.findViewById(R.id.switchButton);
-		loginButton = (Button) rootView.findViewById(R.id.loginButton);
-		signupButton = (Button) rootView.findViewById(R.id.signupButton);
-		emailField = (EditText) rootView.findViewById(R.id.fullNameField);
-		passwordField = (EditText) rootView.findViewById(R.id.pwdField);
-		_loginArea=(LinearLayout)rootView.findViewById(R.id.login_area);
-		_signupArea=(LinearLayout)rootView.findViewById(R.id.signup_area);
+		_rootView = inflater.inflate(R.layout.login_fragment, container, false);
+		_switchButton = (Button) _rootView.findViewById(R.id.switchButton);
+		_loginButton = (Button) _rootView.findViewById(R.id.loginButton);
+		_signupButton = (Button) _rootView.findViewById(R.id.signupButton);
+		_emailField = (EditText) _rootView.findViewById(R.id.fullNameField);
+		_passwordField = (EditText) _rootView.findViewById(R.id.pwdField);
+		_loginArea=(LinearLayout)_rootView.findViewById(R.id.login_area);
+		_signupArea=(LinearLayout)_rootView.findViewById(R.id.signup_area);
 		
-		switchButton.setOnClickListener(new OnClickListener() {
+		_switchButton.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
-				handleSwitchSignup(rootView);
+				handleSwitchSignup(_rootView);
 			}
 
 		});
 		SharedPreferences settings = getActivity().getSharedPreferences(GeoSampleAndroidApp.PREFS_NAME, 0);
-		emailField.setText(settings.getString(GeoSampleAndroidApp.USER_EMAIL, ""));
-		passwordField.setText(settings.getString(GeoSampleAndroidApp.USER_PASSWORD, ""));
+		_emailField.setText(settings.getString(GeoSampleAndroidApp.USER_EMAIL, ""));
+		_passwordField.setText(settings.getString(GeoSampleAndroidApp.USER_PASSWORD, ""));
 		getDialog().setTitle(R.string.login);
 		getDialog().setFeatureDrawableResource(STYLE_NORMAL, R.drawable.kiilogo);
 		getDialog().getWindow().setWindowAnimations(R.style.MyAnimation_Window);
-		return rootView;
+		return _rootView;
 	}
 	 @Override
     protected String getIdentifier() {
-        return emailField.getText().toString();
+        return _emailField.getText().toString();
     }
 
     @Override
     protected String getPassword() {
-        return passwordField.getText().toString();
+        return _passwordField.getText().toString();
     }
 
     @Override
     protected View getLoginButton() {
-        return loginButton;
+        return _loginButton;
     }
     
     @Override
     protected View getRegisterButton() {
-        return signupButton;
+        return _signupButton;
     }
 
 	public void handleSwitchSignup(View v) {
@@ -98,19 +98,14 @@ public class GeoLoginFragment extends KiiLoginFragment{
 		Log.e(TAG,"KiiUser="+KiiUser.getCurrentUser());
 		Log.e(TAG,"login="+KiiUser.isLoggedIn());
 		KiiData.setUser(user);
-//		try{
-//		KiiData.getUser().bucket(GeoSampleAndroidApp.USER_BUCKET).delete();
-//		}catch(Exception e){
-//			e.printStackTrace();
-//		}
         dismiss();
     }
 
     private void savePreferences() {
 		SharedPreferences settings = getActivity().getSharedPreferences(GeoSampleAndroidApp.PREFS_NAME, 0);
 		Editor edit=settings.edit();
-		edit.putString(GeoSampleAndroidApp.USER_EMAIL, emailField.getText().toString());
-		edit.putString(GeoSampleAndroidApp.USER_PASSWORD, passwordField.getText().toString());
+		edit.putString(GeoSampleAndroidApp.USER_EMAIL, _emailField.getText().toString());
+		edit.putString(GeoSampleAndroidApp.USER_PASSWORD, _passwordField.getText().toString());
 		edit.commit();
 	}
 

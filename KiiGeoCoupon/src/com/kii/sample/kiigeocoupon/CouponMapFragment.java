@@ -4,13 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.app.Dialog;
 import android.app.Fragment;
-import android.location.Criteria;
 import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -23,6 +19,7 @@ import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.GoogleMap.CancelableCallback;
 import com.google.android.gms.maps.GoogleMap.OnCameraChangeListener;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
@@ -41,10 +38,10 @@ import com.kii.cloud.storage.query.KiiQueryResult;
 public class CouponMapFragment extends Fragment {
 
 	private static final String TAG = "MapFragment";
-	private GoogleMap mMap;
-	private View rootView;
-	private MapView mapView;
-	private List<Coupon> couponList;
+	private GoogleMap _map;
+	private View _rootView;
+	private MapView _mapView;
+	private List<Coupon> _couponList;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -56,35 +53,35 @@ public class CouponMapFragment extends Fragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 
-		rootView = inflater.inflate(R.layout.coupon_map_fragment, container,
+		_rootView = inflater.inflate(R.layout.coupon_map_fragment, container,
 				false);
-		mapView = (MapView) rootView.findViewById(R.id.mapview);
-		mapView.onCreate(savedInstanceState);
+		_mapView = (MapView) _rootView.findViewById(R.id.mapview);
+		_mapView.onCreate(savedInstanceState);
 		checkIfGooglePlayAvailable();
 		setUpMapIfNeeded();
-		if (couponList != null)
+		if (_couponList != null)
 			drawCouponMarks();
-		return rootView;
+		return _rootView;
 	}
 
 	private void setUpMapIfNeeded() {
 		// Do a null check to confirm that we have not already instantiated the
 		// map.
-		if (mMap == null) {
-			mMap = mapView.getMap();
+		if (_map == null) {
+			_map = _mapView.getMap();
 			// Check if we were successful in obtaining the map.
-			if (mMap != null) {
-				mMap.clear();
+			if (_map != null) {
+				_map.clear();
 				// The Map is verified. It is now safe to manipulate the map.
-				mMap.setMyLocationEnabled(true);
-				mMap.getUiSettings().setMyLocationButtonEnabled(false);
+				_map.setMyLocationEnabled(true);
+				_map.getUiSettings().setMyLocationButtonEnabled(false);
 
 				try {
 					MapsInitializer.initialize(this.getActivity());
 				} catch (GooglePlayServicesNotAvailableException e) {
 					e.printStackTrace();
 				}
-				mMap.setOnCameraChangeListener(new OnCameraChangeListener() {
+				_map.setOnCameraChangeListener(new OnCameraChangeListener() {
 
 					@Override
 					public void onCameraChange(CameraPosition position) {
@@ -93,49 +90,23 @@ public class CouponMapFragment extends Fragment {
 					}
 				});
 
-				LocationManager locationManager = (LocationManager) getActivity()
-						.getSystemService(Activity.LOCATION_SERVICE);
-				// Creating a criteria object to retrieve provider
-				Criteria criteria = new Criteria();
-
-				// Getting the name of the best provider
-				String provider = locationManager.getBestProvider(criteria,
-						true);
-
-				// Getting Current Location
-				Location location = locationManager
-						.getLastKnownLocation(provider);
+				// LocationManager locationManager = (LocationManager)
+				// getActivity()
+				// .getSystemService(Activity.LOCATION_SERVICE);
+				// // Creating a criteria object to retrieve provider
+				// Criteria criteria = new Criteria();
+				//
+				// // Getting the name of the best provider
+				// String provider = locationManager.getBestProvider(criteria,
+				// false);
+				//
+				// // Getting Current Location
+				// Location location = locationManager
+				// .getLastKnownLocation(provider);
+				Location location = ((GeoSampleAndroidApp) getActivity())
+						.getCurrentLocation();
 				moveCamera(location);
-				LocationListener locationListener = new LocationListener() {
-					public void onLocationChanged(Location location) {
-						// redraw the marker when get location update.
-						drawMarker(
-								new LatLng(location.getLatitude(),
-										location.getLongitude()),
-								BitmapDescriptorFactory.HUE_AZURE);
-						drawCouponMarks();
-						moveCamera(location);
-					}
 
-					@Override
-					public void onProviderDisabled(String arg0) {
-						// TODO Auto-generated method stub
-
-					}
-
-					@Override
-					public void onProviderEnabled(String arg0) {
-						// TODO Auto-generated method stub
-
-					}
-
-					@Override
-					public void onStatusChanged(String provider, int status,
-							Bundle extras) {
-						// TODO Auto-generated method stub
-
-					}
-				};
 				if (location != null) {
 					// PLACE THE INITIAL MARKER
 					drawMarker(
@@ -143,8 +114,6 @@ public class CouponMapFragment extends Fragment {
 									location.getLongitude()),
 							BitmapDescriptorFactory.HUE_AZURE);
 				}
-				locationManager.requestLocationUpdates(provider, 20000, 0,
-						locationListener);
 
 			}
 		}
@@ -155,11 +124,31 @@ public class CouponMapFragment extends Fragment {
 				location.getLongitude());
 		CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng,
 				15);
-		mMap.animateCamera(cameraUpdate);
+		CameraPosition camPosition = _map.getCameraPosition();
+		if (!((Math.floor(camPosition.target.latitude * 100) / 100) == (Math
+				.floor(latLng.latitude * 100) / 100) && (Math
+				.floor(camPosition.target.longitude * 100) / 100) == (Math
+				.floor(latLng.longitude * 100) / 100))) {
+			_map.getUiSettings().setScrollGesturesEnabled(false);
+			_map.animateCamera(cameraUpdate, new CancelableCallback() {
+
+				@Override
+				public void onFinish() {
+					_map.getUiSettings().setScrollGesturesEnabled(true);
+
+				}
+
+				@Override
+				public void onCancel() {
+					_map.getUiSettings().setAllGesturesEnabled(true);
+
+				}
+			});
+		}
 	}
 
 	private void drawMarker(LatLng currentPosition, float hue) {
-		mMap.addMarker(
+		_map.addMarker(
 				new MarkerOptions().position(currentPosition).snippet(
 						"Lat:" + currentPosition.latitude + "Lng:"
 								+ currentPosition.longitude)).setIcon(
@@ -183,37 +172,38 @@ public class CouponMapFragment extends Fragment {
 		}
 	}
 
-	
 	@SuppressLint("NewApi")
 	@Override
 	public void onViewStateRestored(Bundle savedInstanceState) {
 		super.onViewStateRestored(savedInstanceState);
 		setUpMapIfNeeded();
-		mapView.onSaveInstanceState(savedInstanceState);
+		_mapView.onSaveInstanceState(savedInstanceState);
 	}
 
 	@Override
 	public void onResume() {
 		setUpMapIfNeeded();
-		mapView.onResume();
+		_mapView.onResume();
 		super.onResume();
 	}
 
 	@Override
 	public void onDestroy() {
 		super.onDestroy();
-		mapView.onDestroy();
+		_mapView.onDestroy();
 	}
 
 	@Override
 	public void onLowMemory() {
 		super.onLowMemory();
-		mapView.onLowMemory();
+		_mapView.onLowMemory();
 	}
 
 	public void loadGeoCoupons(double latitude, double longitude) {
+		if (KiiData.getUser() == null)
+			return;
 		try {
-			VisibleRegion vr = mMap.getProjection().getVisibleRegion();
+			VisibleRegion vr = _map.getProjection().getVisibleRegion();
 			GeoPoint sw = new GeoPoint(vr.latLngBounds.southwest.latitude,
 					vr.latLngBounds.southwest.longitude);
 			GeoPoint ne = new GeoPoint(vr.latLngBounds.northeast.latitude,
@@ -237,9 +227,9 @@ public class CouponMapFragment extends Fragment {
 							if (exception == null) {
 								List<KiiObject> objects = result.getResult();
 								Log.e(TAG, "objects=" + objects);
-								couponList = new ArrayList<Coupon>();
+								_couponList = new ArrayList<Coupon>();
 								for (KiiObject kiiObject : objects) {
-									couponList.add(new Coupon(kiiObject));
+									_couponList.add(new Coupon(kiiObject));
 								}
 								drawCouponMarks();
 							} else
@@ -256,17 +246,30 @@ public class CouponMapFragment extends Fragment {
 		LatLng location;
 		float hue;
 		GeoPoint point;
-		for (Coupon coupon : couponList) {
-			if (coupon.getRedeemAt() == null) {
-				point = coupon.getViewAt();
-				hue = BitmapDescriptorFactory.HUE_GREEN;
-			} else {
-				point = coupon.getRedeemAt();
-				hue = BitmapDescriptorFactory.HUE_RED;
+		if (_couponList != null)
+			for (Coupon coupon : _couponList) {
+				if (coupon.getRedeemAt() == null) {
+					point = coupon.getViewAt();
+					hue = BitmapDescriptorFactory.HUE_GREEN;
+				} else {
+					point = coupon.getRedeemAt();
+					hue = BitmapDescriptorFactory.HUE_RED;
+				}
+				location = new LatLng(point.getLatitude(), point.getLongitude());
+				Log.e(TAG, "point:" + point);
+				drawMarker(location, hue);
 			}
-			location = new LatLng(point.getLatitude(), point.getLongitude());
-			drawMarker(location, hue);
-		}
 
+	}
+
+	public void notifyLocationChanged(Location location) {
+		// redraw the marker when get location update.
+		if (_map != null) {
+			drawMarker(
+					new LatLng(location.getLatitude(), location.getLongitude()),
+					BitmapDescriptorFactory.HUE_AZURE);
+			drawCouponMarks();
+			moveCamera(location);
+		}
 	}
 }

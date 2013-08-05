@@ -11,17 +11,12 @@ import com.google.zxing.common.BitMatrix;
 import com.google.zxing.integration.android.IntentResult;
 import com.google.zxing.qrcode.QRCodeWriter;
 import com.kii.cloud.storage.GeoPoint;
-import com.kii.cloud.storage.KiiBucket;
 import com.kii.cloud.storage.KiiObject;
 import com.kii.cloud.storage.KiiUser;
-import com.kii.cloud.storage.callback.KiiBucketCallBack;
 import com.kii.cloud.storage.callback.KiiObjectCallBack;
 
 public class Coupon {
 
-	/**
-	 * 
-	 */
 	public static final String COMPANY = "company";
 	public static final String PRODUCT = "product";
 	public static final String DISCOUNT_CODE = "discount_code";
@@ -33,25 +28,15 @@ public class Coupon {
 	private static final String TAG = "Coupon";
 	public static final String IS_REDEEMED = "isRedeemed";
 
-	private KiiObject kiiObject;
+	private KiiObject _kiiObject;
 
 	public Coupon(KiiObject object) {
-		kiiObject = object;
+		_kiiObject = object;
 	}
 
 	public static Coupon create(IntentResult scanResult, Location location) {
 		KiiObject kiiObject = null;
 		try {
-//			KiiData.getUser().bucket(GeoSampleAndroidApp.USER_BUCKET).delete(new KiiBucketCallBack<KiiBucket>(){
-//
-//				@Override
-//				public void onDeleteCompleted(int token, Exception exception) {
-//					// TODO Auto-generated method stub
-//					super.onDeleteCompleted(token, exception);
-//					Log.e(TAG,"Bucket deleted");
-//				}
-//				
-//			});
 			Log.e(TAG, "login:" + KiiUser.isLoggedIn());
 			kiiObject = KiiData.getUser().bucket(GeoSampleAndroidApp.USER_BUCKET)
 					.object();
@@ -87,34 +72,34 @@ public class Coupon {
 	}
 
 	public String getCompany() {
-		return kiiObject.getString(COMPANY, "");
+		return _kiiObject.getString(COMPANY, "");
 	}
 
 	public String getProduct() {
-		return kiiObject.getString(PRODUCT, "");
+		return _kiiObject.getString(PRODUCT, "");
 	}
 
 	public String getDiscountCode() {
-		return kiiObject.getString(DISCOUNT_CODE, "");
+		return _kiiObject.getString(DISCOUNT_CODE, "");
 	}
 
 	public GeoPoint getViewAt() {
-		return kiiObject.getGeoPoint(VIEW_AT, null);
+		return _kiiObject.getGeoPoint(VIEW_AT, null);
 	}
 
 	public GeoPoint getRedeemAt() {
-		return kiiObject.getGeoPoint(REDEEM_AT, null);
+		return _kiiObject.getGeoPoint(REDEEM_AT, null);
 	}
 	
 	public boolean isRedeemed(){
-		return kiiObject.getBoolean(IS_REDEEMED);
+		return _kiiObject.getBoolean(IS_REDEEMED);
 	}
 
 	public void redeem(Location location) {
-		kiiObject.set(IS_REDEEMED, true);
-		kiiObject.set(REDEEM_AT,
+		_kiiObject.set(IS_REDEEMED, true);
+		_kiiObject.set(REDEEM_AT,
 				new GeoPoint(location.getLatitude(), location.getLongitude()));
-		kiiObject.save(new KiiObjectCallBack() {
+		_kiiObject.save(new KiiObjectCallBack() {
 
 			@Override
 			public void onSaveCompleted(int token, KiiObject object,
@@ -135,7 +120,7 @@ public class Coupon {
 		com.google.zxing.Writer writer = new QRCodeWriter();
 		String data;
 		try {
-			data = new String(kiiObject.getByteArray(RAW_DATA), "UTF8");
+			data = new String(_kiiObject.getByteArray(RAW_DATA), "UTF8");
 		} catch (UnsupportedEncodingException e) {
 			// the program shouldn't be able to get here
 			return null;

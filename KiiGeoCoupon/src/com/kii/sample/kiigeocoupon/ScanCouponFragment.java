@@ -17,9 +17,9 @@ import com.google.zxing.integration.android.IntentResult;
 public class ScanCouponFragment extends Fragment {
 
 	private static final String TAG = "ScanCouponFragment";
-	private ImageButton scanButton;
-	private FrameLayout scannedCoupon;
-	private Coupon currentCoupon;
+	private ImageButton _scanButton;
+	private FrameLayout _scannedCoupon;
+	private Coupon _currentCoupon;
 
 
 	@Override
@@ -33,8 +33,8 @@ public class ScanCouponFragment extends Fragment {
 			Bundle savedInstanceState) {
 		LinearLayout rootView = (LinearLayout) inflater.inflate(
 				R.layout.scan_coupon_fragment, container, false);
-		scanButton = (ImageButton) rootView.findViewById(R.id.scan_button);
-		scanButton.setOnClickListener(new OnClickListener() {
+		_scanButton = (ImageButton) rootView.findViewById(R.id.scan_button);
+		_scanButton.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
@@ -42,10 +42,10 @@ public class ScanCouponFragment extends Fragment {
 				//capturePicture();
 			}
 		});
-		scannedCoupon = (FrameLayout) rootView
+		_scannedCoupon = (FrameLayout) rootView
 				.findViewById(R.id.scanned_coupon);
-		if (currentCoupon != null)
-			((GeoSampleAndroidApp)getActivity()).createCouponView(currentCoupon);
+		if (_currentCoupon != null)
+			((GeoSampleAndroidApp)getActivity()).createCouponView(_currentCoupon);
 
 
 		return rootView;
@@ -53,7 +53,7 @@ public class ScanCouponFragment extends Fragment {
 
 
 	public void enableScan() {
-		scanButton.setVisibility(View.VISIBLE);
+		_scanButton.setVisibility(View.VISIBLE);
 	}
 
 	protected void startScan() {
@@ -63,9 +63,9 @@ public class ScanCouponFragment extends Fragment {
 
 	public void setScanResult(IntentResult scanResult) {
 		Location location=((GeoSampleAndroidApp)getActivity()).getCurrentLocation();
-		currentCoupon = Coupon.create(scanResult, location);
-		View couponView=((GeoSampleAndroidApp)getActivity()).createCouponView(currentCoupon);
-		scannedCoupon.addView(couponView);
+		_currentCoupon = Coupon.create(scanResult, location);
+		View couponView=((GeoSampleAndroidApp)getActivity()).createCouponView(_currentCoupon);
+		_scannedCoupon.addView(couponView);
 	}
 
 

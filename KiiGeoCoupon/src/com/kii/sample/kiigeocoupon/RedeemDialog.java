@@ -13,11 +13,11 @@ import android.widget.FrameLayout;
 public class RedeemDialog extends DialogFragment{
 	
 	private static final String TAG = "DialogFragment";
-	private View rootView;
-	private FrameLayout currentRedeem;
-	private Coupon coupon;
-	private Button yesButton;
-	private Button noButton;
+	private View _rootView;
+	private FrameLayout _currentRedeem;
+	private Coupon _coupon;
+	private Button _yesButton;
+	private Button _noButton;
 	
 	public static RedeemDialog newInstance() {
 		RedeemDialog fragment = new RedeemDialog();
@@ -29,65 +29,46 @@ public class RedeemDialog extends DialogFragment{
 			Bundle savedInstanceState) {
 		// Inflate the layout for this fragment
 		// link our variables to UI elements
-		rootView = inflater.inflate(R.layout.redeem_dialog, container, false);
-		currentRedeem=(FrameLayout)rootView.findViewById(R.id.current_redeem);
-		yesButton=(Button)rootView.findViewById(R.id.yes);
-		noButton=(Button)rootView.findViewById(R.id.no);
-		yesButton.setOnClickListener(new OnClickListener() {
+		_rootView = inflater.inflate(R.layout.redeem_dialog, container, false);
+		_currentRedeem=(FrameLayout)_rootView.findViewById(R.id.current_redeem);
+		_yesButton=(Button)_rootView.findViewById(R.id.yes);
+		_noButton=(Button)_rootView.findViewById(R.id.no);
+		_yesButton.setOnClickListener(new OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
 				redeemCoupon();
 			}
 		});
-		noButton.setOnClickListener(new OnClickListener() {
+		_noButton.setOnClickListener(new OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
 				dismiss();
 			}
 		});
-		createCouponView(coupon);
+		createCouponView(_coupon);
 		getDialog().setTitle(R.string.redeem_coupon);
 		getDialog().getWindow().setWindowAnimations(R.style.MyAnimation_Window);
 
-		return rootView;
+		return _rootView;
 	}
 	
 	protected void redeemCoupon() {
 		Location location=((GeoSampleAndroidApp)getActivity()).getCurrentLocation();
-		coupon.redeem(location);
+		_coupon.redeem(location);
 		KiiData.loadCoupons();
 		dismiss();
 	}
 
 
 	public void setCoupon(Coupon coupon){
-		this.coupon=coupon;
+		this._coupon=coupon;
 	}
 	
 	private void createCouponView(Coupon coupon) {
-//		Bitmap bm = coupon.getCouponImage();
-//		LayoutInflater inflater = (LayoutInflater)getActivity().getSystemService
-//			      (Context.LAYOUT_INFLATER_SERVICE);
-//
-//		View couponView =inflater.inflate(R.layout.coupon_view, null,false);
-//
-//		ImageView imageView =(ImageView)couponView.findViewById(R.id.couponImage);
-//		imageView.setLayoutParams(new LayoutParams(220, 220));
-//		imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-//		imageView.setImageBitmap(bm);
-//		Log.e(TAG,"company="+coupon.getCompany());
-//		
-//		TextView company=(TextView)couponView.findViewById(R.id.company);
-//		company.setText(coupon.getCompany());
-//		TextView product=(TextView)couponView.findViewById(R.id.product);
-//		product.setText(coupon.getProduct());
-//		TextView discountCode=(TextView)couponView.findViewById(R.id.discountCode);
-//		discountCode.setText(coupon.getDiscountCode());
-		
 		View couponView=((GeoSampleAndroidApp)getActivity()).createCouponView(coupon);
-		currentRedeem.addView(couponView);
+		_currentRedeem.addView(couponView);
 		return;
 	}	
 

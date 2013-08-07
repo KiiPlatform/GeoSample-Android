@@ -58,6 +58,7 @@ public class GeoSampleAndroidApp extends Activity implements
 	private CouponMapFragment _mapFragment;
 	private LocationClient _locationClient;
 	private LocationRequest _locationRequest;
+	private Location _cachedLocation;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -134,6 +135,7 @@ public class GeoSampleAndroidApp extends Activity implements
 	public void onConfigurationChanged(Configuration newConfig) {
 		super.onConfigurationChanged(newConfig);
 		setContentView(R.layout.activity_kii_geo_coupon_app);
+		_locationClient.connect();
 	}
 
 	/*
@@ -181,9 +183,7 @@ public class GeoSampleAndroidApp extends Activity implements
 			 */
 			switch (resultCode) {
 			case Activity.RESULT_OK:
-				/*
-				 * Try the request again
-				 */
+				_locationClient.connect();
 				break;
 			}
 		}
@@ -219,8 +219,10 @@ public class GeoSampleAndroidApp extends Activity implements
 	}
 
 	public Location getCurrentLocation() {
-		Log.e(TAG, "current location:" + _locationClient.getLastLocation());
-		return _locationClient.getLastLocation();
+		if (_locationClient.isConnected())
+			_cachedLocation = _locationClient.getLastLocation();
+		Log.e(TAG, "current location:" + _cachedLocation);
+		return _cachedLocation;
 	}
 
 	public View createCouponView(Coupon coupon) {
@@ -246,7 +248,6 @@ public class GeoSampleAndroidApp extends Activity implements
 		return couponView;
 	}
 
-
 	/*
 	 * Called by Location Services when the request to connect the client
 	 * finishes successfully. At this point, you can request the current
@@ -255,7 +256,8 @@ public class GeoSampleAndroidApp extends Activity implements
 	@Override
 	public void onConnected(Bundle dataBundle) {
 		// Display the connection status
-		Toast.makeText(this, "Connected to Google Play Services", Toast.LENGTH_SHORT).show();
+		Toast.makeText(this, "Connected to Google Play Services",
+				Toast.LENGTH_SHORT).show();
 		_locationClient.requestLocationUpdates(_locationRequest, this);
 
 	}
@@ -267,7 +269,8 @@ public class GeoSampleAndroidApp extends Activity implements
 	@Override
 	public void onDisconnected() {
 		// Display the connection status
-		Toast.makeText(this, "Disconnected from Google Play Services. Please re-connect.",
+		Toast.makeText(this,
+				"Disconnected from Google Play Services. Please re-connect.",
 				Toast.LENGTH_SHORT).show();
 	}
 
@@ -305,6 +308,7 @@ public class GeoSampleAndroidApp extends Activity implements
 
 	@Override
 	public void onLocationChanged(Location location) {
+		_cachedLocation=location;
 		_mapFragment.notifyLocationChanged(location);
 	}
 

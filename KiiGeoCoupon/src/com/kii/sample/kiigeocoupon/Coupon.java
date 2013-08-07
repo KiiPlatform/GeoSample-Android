@@ -38,11 +38,12 @@ public class Coupon {
 		KiiObject kiiObject = null;
 		try {
 			Log.e(TAG, "login:" + KiiUser.isLoggedIn());
-			kiiObject = KiiData.getUser().bucket(GeoSampleAndroidApp.USER_BUCKET)
-					.object();
+			kiiObject = KiiData.getUser()
+					.bucket(GeoSampleAndroidApp.USER_BUCKET).object();
 		} catch (Exception e) {
 			Log.e(TAG, "Can not create bucket");
 			e.printStackTrace();
+			return null;
 		}
 		kiiObject.set(RAW_DATA, scanResult.getRawBytes());
 		StringTokenizer st = new StringTokenizer(scanResult.getContents(), ",");
@@ -50,25 +51,26 @@ public class Coupon {
 			kiiObject.set(COMPANY, st.nextToken());
 			kiiObject.set(PRODUCT, st.nextToken());
 			kiiObject.set(DISCOUNT_CODE, st.nextToken());
+			kiiObject.set(VIEW_AT, new GeoPoint(location.getLatitude(),
+					location.getLongitude()));
+			kiiObject.set(IS_REDEEMED, false);
+			kiiObject.save(new KiiObjectCallBack() {
+
+				@Override
+				public void onSaveCompleted(int token, KiiObject object,
+						Exception exception) {
+					super.onSaveCompleted(token, object, exception);
+					if (exception == null)
+						Log.e(TAG, "Coupon saved");
+					else
+						exception.printStackTrace();
+				}
+
+			});
+			Coupon coupon = new Coupon(kiiObject);
+			return coupon;
 		}
-		kiiObject.set(VIEW_AT,
-				new GeoPoint(location.getLatitude(), location.getLongitude()));
-		kiiObject.set(IS_REDEEMED, false);
-		kiiObject.save(new KiiObjectCallBack() {
-
-			@Override
-			public void onSaveCompleted(int token, KiiObject object,
-					Exception exception) {
-				super.onSaveCompleted(token, object, exception);
-				if (exception == null)
-					Log.e(TAG, "Coupon saved");
-				else
-					exception.printStackTrace();
-			}
-
-		});
-		Coupon coupon = new Coupon(kiiObject);
-		return coupon;
+		return null;
 	}
 
 	public String getCompany() {
@@ -90,8 +92,8 @@ public class Coupon {
 	public GeoPoint getRedeemAt() {
 		return _kiiObject.getGeoPoint(REDEEM_AT, null);
 	}
-	
-	public boolean isRedeemed(){
+
+	public boolean isRedeemed() {
 		return _kiiObject.getBoolean(IS_REDEEMED);
 	}
 

@@ -90,19 +90,6 @@ public class CouponMapFragment extends Fragment {
 					}
 				});
 
-				// LocationManager locationManager = (LocationManager)
-				// getActivity()
-				// .getSystemService(Activity.LOCATION_SERVICE);
-				// // Creating a criteria object to retrieve provider
-				// Criteria criteria = new Criteria();
-				//
-				// // Getting the name of the best provider
-				// String provider = locationManager.getBestProvider(criteria,
-				// false);
-				//
-				// // Getting Current Location
-				// Location location = locationManager
-				// .getLastKnownLocation(provider);
 				Location location = ((GeoSampleAndroidApp) getActivity())
 						.getCurrentLocation();
 				moveCamera(location);
@@ -112,7 +99,7 @@ public class CouponMapFragment extends Fragment {
 					drawMarker(
 							new LatLng(location.getLatitude(),
 									location.getLongitude()),
-							BitmapDescriptorFactory.HUE_AZURE);
+							BitmapDescriptorFactory.HUE_AZURE, "You're here");
 				}
 
 			}
@@ -120,6 +107,7 @@ public class CouponMapFragment extends Fragment {
 	}
 
 	protected void moveCamera(Location location) {
+		if(location==null)return;
 		LatLng latLng = new LatLng(location.getLatitude(),
 				location.getLongitude());
 		CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng,
@@ -147,11 +135,11 @@ public class CouponMapFragment extends Fragment {
 		}
 	}
 
-	private void drawMarker(LatLng currentPosition, float hue) {
+	private void drawMarker(LatLng currentPosition, float hue, String title) {
 		_map.addMarker(
 				new MarkerOptions().position(currentPosition).snippet(
 						"Lat:" + currentPosition.latitude + "Lng:"
-								+ currentPosition.longitude)).setIcon(
+								+ currentPosition.longitude).title(title)).setIcon(
 				BitmapDescriptorFactory.defaultMarker(hue));
 	}
 
@@ -257,7 +245,7 @@ public class CouponMapFragment extends Fragment {
 				}
 				location = new LatLng(point.getLatitude(), point.getLongitude());
 				Log.e(TAG, "point:" + point);
-				drawMarker(location, hue);
+				drawMarker(location, hue, coupon.getCompany()+":"+coupon.getProduct());
 			}
 
 	}
@@ -267,7 +255,7 @@ public class CouponMapFragment extends Fragment {
 		if (_map != null) {
 			drawMarker(
 					new LatLng(location.getLatitude(), location.getLongitude()),
-					BitmapDescriptorFactory.HUE_AZURE);
+					BitmapDescriptorFactory.HUE_AZURE, "You're here");
 			drawCouponMarks();
 			moveCamera(location);
 		}

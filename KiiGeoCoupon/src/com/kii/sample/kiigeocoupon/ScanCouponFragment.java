@@ -21,7 +21,6 @@ public class ScanCouponFragment extends Fragment {
 	private FrameLayout _scannedCoupon;
 	private Coupon _currentCoupon;
 
-
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -38,19 +37,18 @@ public class ScanCouponFragment extends Fragment {
 
 			@Override
 			public void onClick(View v) {
-				 startScan();
-				//capturePicture();
+				startScan();
+				// capturePicture();
 			}
 		});
 		_scannedCoupon = (FrameLayout) rootView
 				.findViewById(R.id.scanned_coupon);
 		if (_currentCoupon != null)
-			((GeoSampleAndroidApp)getActivity()).createCouponView(_currentCoupon);
-
+			((GeoSampleAndroidApp) getActivity())
+					.createCouponView(_currentCoupon);
 
 		return rootView;
 	}
-
 
 	public void enableScan() {
 		_scanButton.setVisibility(View.VISIBLE);
@@ -62,12 +60,14 @@ public class ScanCouponFragment extends Fragment {
 	}
 
 	public void setScanResult(IntentResult scanResult) {
-		Location location=((GeoSampleAndroidApp)getActivity()).getCurrentLocation();
+		Location location = ((GeoSampleAndroidApp) getActivity())
+				.getCurrentLocation();
 		_currentCoupon = Coupon.create(scanResult, location);
-		View couponView=((GeoSampleAndroidApp)getActivity()).createCouponView(_currentCoupon);
-		_scannedCoupon.addView(couponView);
+		if (_currentCoupon != null) {
+			View couponView = ((GeoSampleAndroidApp) getActivity())
+					.createCouponView(_currentCoupon);
+			_scannedCoupon.addView(couponView);
+		}
 	}
-
-
 
 }

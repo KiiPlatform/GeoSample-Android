@@ -9,7 +9,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
+import android.widget.ScrollView;
 
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
@@ -30,7 +30,7 @@ public class ScanCouponFragment extends Fragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		LinearLayout rootView = (LinearLayout) inflater.inflate(
+		ScrollView rootView = (ScrollView) inflater.inflate(
 				R.layout.scan_coupon_fragment, container, false);
 		_scanButton = (ImageButton) rootView.findViewById(R.id.scan_button);
 		_scanButton.setOnClickListener(new OnClickListener() {
@@ -49,6 +49,7 @@ public class ScanCouponFragment extends Fragment {
 
 		return rootView;
 	}
+	
 
 	public void enableScan() {
 		_scanButton.setVisibility(View.VISIBLE);

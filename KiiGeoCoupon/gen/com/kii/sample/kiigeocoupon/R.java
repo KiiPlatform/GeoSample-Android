@@ -201,10 +201,10 @@ containing a value of this type.
     public static final class id {
         public static final int LinearLayout1=0x7f060008;
         public static final int LinearLayout2=0x7f06000a;
-        public static final int action_settings=0x7f060021;
+        public static final int action_settings=0x7f060022;
         public static final int company=0x7f06000c;
         public static final int couponImage=0x7f060009;
-        public static final int coupon_gallery=0x7f060020;
+        public static final int coupon_gallery=0x7f060021;
         public static final int current_redeem=0x7f06001b;
         public static final int discountCode=0x7f060010;
         public static final int editText1=0x7f060019;
@@ -223,8 +223,9 @@ containing a value of this type.
         public static final int product=0x7f06000e;
         public static final int pwdField=0x7f060014;
         public static final int satellite=0x7f060002;
-        public static final int scan_button=0x7f06001e;
-        public static final int scanned_coupon=0x7f06001f;
+        public static final int scan_button=0x7f06001f;
+        public static final int scanned_coupon=0x7f060020;
+        public static final int scrollView1=0x7f06001e;
         public static final int signupButton=0x7f06001a;
         public static final int signup_area=0x7f060018;
         public static final int switchButton=0x7f060017;
